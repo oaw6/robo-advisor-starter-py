@@ -12,24 +12,23 @@ api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 #print("API KEY: " + api_key)
 
 #Introduces the program and asks for input
-print("-------------------------------------")
-print("-------------------------------------")
-print("Welcome to the Robo-Advisor Investing")
-print("Recommendation Application. This app")
-print("will recommend whether or not to buy")
-print("any stock you are curious about.")
-print("-------------------------------------")
-print("-------------------------------------")
+print("-----------------------------------------------------")
+print("-----------------------------------------------------")
+print("Welcome to the Robo-Advisor Investing Recommendation")
+print("Application. This app will recommend whether or not")
+print("to buy any stock you are curious about.")
+print("-----------------------------------------------------")
+print("-----------------------------------------------------")
 ticker_symbol = input("Please type the ticker symbol of your desired stock:")
-print("-------------------------------------")
+print("-----------------------------------------------------")
 
 #Validation to make sure ticker is of the proper format
 if len(ticker_symbol) > 5:
-    print("Uh-oh! Not a properly-formatted ticker symbol.")
+    print("Uh-oh! The maximum amount of letters for a ticker symbol is 5.")
 elif ticker_symbol.isalpha():
-    print("This contains only letters.")
+    print("Ticker format validated.")
 else:
-    print("This contains a non-letter character.")
+    print("Uh-oh! Remember that ticker symbols only contain letters.")
 
 symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
 
