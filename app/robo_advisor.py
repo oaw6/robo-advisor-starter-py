@@ -11,6 +11,18 @@ load_dotenv() # loads environment variables set in a ".env" file, including the 
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 #print("API KEY: " + api_key)
 
+#Introduces the program and asks for input
+print("-------------------------------------")
+print("-------------------------------------")
+print("Welcome to the Robo-Advisor Investing")
+print("Recommendation Application. This app")
+print("will recommend whether or not to buy")
+print("any stock you are curious about.")
+print("-------------------------------------")
+print("-------------------------------------")
+ticker_symbol = input("Please type the ticker symbol of your desired stock:")
+print("-------------------------------------")
+
 symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
