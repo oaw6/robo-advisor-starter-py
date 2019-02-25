@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import json
 import os
 import requests
+import sys
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
@@ -25,10 +26,12 @@ print("-----------------------------------------------------")
 #Validation to make sure ticker is of the proper format
 if len(ticker_symbol) > 5:
     print("Uh-oh! The maximum amount of letters for a ticker symbol is 5.")
+    sys.exit("Please re-run the program and try again!")
 elif ticker_symbol.isalpha():
     print("Ticker format validated.")
 else:
     print("Uh-oh! Remember that ticker symbols only contain letters.")
+    sys.exit("Please re-run the program and try again!")
 
 symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
 
