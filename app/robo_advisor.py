@@ -23,6 +23,14 @@ print("-------------------------------------")
 ticker_symbol = input("Please type the ticker symbol of your desired stock:")
 print("-------------------------------------")
 
+#Validation to make sure ticker is of the proper format
+if len(ticker_symbol) > 5:
+    print("Uh-oh! Not a properly-formatted ticker symbol.")
+elif ticker_symbol.isalpha():
+    print("This contains only letters.")
+else:
+    print("This contains a non-letter character.")
+
 symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
