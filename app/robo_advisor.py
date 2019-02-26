@@ -11,9 +11,8 @@ import datetime
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
-# see: https://www.alphavantage.co/support/#api-key
+#Registers api key
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
-#print("API KEY: " + api_key)
 
 #Introduces the program and asks for input
 print("-----------------------------------------------------")
@@ -37,8 +36,6 @@ else:
     print("Uh-oh! Remember that ticker symbols only contain letters.")
     sys.exit("Please re-run the program and try again!")
 
-#symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
-
 #Creates json file for chosen ticker using requests.get and validates that ticker request was successful
 alphavantage_data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+ticker_symbol+'&outputsize=compact&apikey='+api_key)
 if "Error" in alphavantage_data.text:
@@ -46,10 +43,8 @@ if "Error" in alphavantage_data.text:
     print("Sorry, but we couldn't find any data for the selected ticker.")
     sys.exit("Please re-run the program and try again!")
 else:
-    print("-----------------------------------------------------")
     print("Downloading data...")
     print("-----------------------------------------------------")
-#json_data = alphavantage_data.json()
 
 #Parse json data and create lists to hold values
 json_parsed = json.loads(alphavantage_data.text)
@@ -78,9 +73,7 @@ recent_max = max(pandas_data['Daily High'].astype(float))
 recent_min = min(pandas_data['Daily Low'].astype(float))
 latest_close = float(pandas_data['Closing Price'][0])
 average_close = mean(pandas_data['Closing Price'].astype(float))
-#print(average_close)
 rate_close = (float(pandas_data['Closing Price'][0]) - float(pandas_data['Closing Price'][4])) / 5
-#print(rate_close)
 latest_date = pandas_data['Date'][0]
 
 #Determine recommendation
@@ -97,15 +90,15 @@ else:
         recommendation = "Do not buy"
         reasoning = "The stock price has been decreasing and is below the average closing price over the last 100 trading days, so you may want to wait until the price starts increasing."
 
-print("-----------------")
+print("-----------------------------------------------------")
 print(f"STOCK SYMBOL: {ticker_symbol}")
 print("RUN AT: "+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-print("-----------------")
+print("-----------------------------------------------------")
 print("LATEST DAY OF AVAILABLE DATA: "+latest_date)
 print("LATEST DAILY CLOSING PRICE: ${0:,.2f}".format(latest_close))
 print("RECENT HIGH: ${0:,.2f}".format(recent_max))
 print("RECENT LOW: ${0:,.2f}".format(recent_min))
-print("-----------------")
+print("-----------------------------------------------------")
 print("RECOMMENDATION: "+recommendation)
 print("RECOMMENDATION REASON: "+reasoning)
-print("-----------------")
+print("-----------------------------------------------------")
