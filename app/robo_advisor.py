@@ -47,7 +47,33 @@ else:
     print("-----------------------------------------------------")
     print("Downloading data...")
     print("-----------------------------------------------------")
-json_data = alphavantage_data.json()
+#json_data = alphavantage_data.json()
+
+#Parse json data and create lists to hold values
+json_parsed = json.loads(alphavantage_data.text)
+dates = []
+open_prices = []
+high_prices = []
+low_prices = []
+close_prices = []
+for key, value in json_parsed['Time Series (Daily)'].items():
+    dates.append(key)
+    open_prices.append(value['1. open'])
+    high_prices.append(value['2. high'])
+    low_prices.append(value['3. low'])
+    close_prices.append(value['4. close'])
+
+csv_file = open('../data/'+ticker_symbol+'.csv', 'w')
+csvwriter = csv.writer(csv_file)
+count = 0
+for row in json_parsed['Time Series (Daily)'].items():
+      #if count == 0:
+            # header = json_parsed.keys()
+            # csvwriter.writerow(header)
+            # count += 1
+     # else:
+          csvwriter.writerow(row)
+csv_file.close()
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
