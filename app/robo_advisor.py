@@ -6,6 +6,7 @@ import os
 import requests
 import sys
 import csv
+import pandas
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
@@ -63,17 +64,20 @@ for key, value in json_parsed['Time Series (Daily)'].items():
     low_prices.append(value['3. low'])
     close_prices.append(value['4. close'])
 
-csv_file = open('../data/'+ticker_symbol+'.csv', 'w')
-csvwriter = csv.writer(csv_file)
-count = 0
-for row in json_parsed['Time Series (Daily)'].items():
-      #if count == 0:
-            # header = json_parsed.keys()
-            # csvwriter.writerow(header)
-            # count += 1
-     # else:
-          csvwriter.writerow(row)
-csv_file.close()
+#Convert lists to csv file (with help from stack exchange)
+pandas_data = pandas.DataFrame({'Date':dates,'Opening Price':open_prices, 'Daily High': high_prices,'Daily Low': low_prices,'Closing Price': close_prices})
+pandas_data.to_csv('../data/'+ticker_symbol+'.csv')
+#csv_file = open('../data/'+ticker_symbol+'.csv', 'w')
+#csvwriter = csv.writer(csv_file)
+#count = 0
+#for row in json_parsed['Time Series (Daily)'].items():
+#      #if count == 0:
+#            # header = json_parsed.keys()
+#            # csvwriter.writerow(header)
+#            # count += 1
+#     # else:
+#          csvwriter.writerow(row)
+#csv_file.close()
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
