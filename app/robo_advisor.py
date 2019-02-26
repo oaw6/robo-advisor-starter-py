@@ -68,11 +68,16 @@ for key, value in json_parsed['Time Series (Daily)'].items():
 pandas_data = pandas.DataFrame({'Date':dates,'Opening Price':open_prices, 'Daily High': high_prices,'Daily Low': low_prices,'Closing Price': close_prices})
 pandas_data.to_csv('../data/'+ticker_symbol+'.csv')
 
+#Create mean function
+def mean(numbers):
+    return float(sum(numbers)) / max(len(numbers), 1)
+
 #Collect important data from data frame
 recent_max = max(pandas_data['Daily High'].astype(float))
 recent_min = min(pandas_data['Daily Low'].astype(float))
 latest_close = pandas_data['Closing Price'][0]
-#print(latest_close)
+average_close = mean(pandas_data['Closing Price'].astype(float))
+print(average_close)
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
@@ -82,7 +87,7 @@ latest_close = pandas_data['Closing Price'][0]
 # TODO: further parse the JSON response...
 
 # TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-latest_price_usd = "$100,000.00"
+#latest_price_usd = "$100,000.00"
 
 #
 # INFO OUTPUTS
@@ -96,7 +101,7 @@ print(f"STOCK SYMBOL: {ticker_symbol}")
 print("RUN AT: 11:52pm on June 5th, 2018")
 print("-----------------")
 print("LATEST DAY OF AVAILABLE DATA: June 4th, 2018")
-print(f"LATEST DAILY CLOSING PRICE: {latest_price_usd}")
+print(f"LATEST DAILY CLOSING PRICE: {latest_close}")
 print("RECENT HIGH: $101,000.00")
 print("RECENT LOW: $99,000.00")
 print("-----------------")
