@@ -78,6 +78,8 @@ recent_min = min(pandas_data['Daily Low'].astype(float))
 latest_close = pandas_data['Closing Price'][0]
 average_close = mean(pandas_data['Closing Price'].astype(float))
 print(average_close)
+rate_close = (float(pandas_data['Closing Price'][0]) - float(pandas_data['Closing Price'][4])) / 5
+print(rate_close)
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
