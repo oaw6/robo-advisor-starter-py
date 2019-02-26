@@ -67,17 +67,12 @@ for key, value in json_parsed['Time Series (Daily)'].items():
 #Convert lists to csv file (with help from stack exchange)
 pandas_data = pandas.DataFrame({'Date':dates,'Opening Price':open_prices, 'Daily High': high_prices,'Daily Low': low_prices,'Closing Price': close_prices})
 pandas_data.to_csv('../data/'+ticker_symbol+'.csv')
-#csv_file = open('../data/'+ticker_symbol+'.csv', 'w')
-#csvwriter = csv.writer(csv_file)
-#count = 0
-#for row in json_parsed['Time Series (Daily)'].items():
-#      #if count == 0:
-#            # header = json_parsed.keys()
-#            # csvwriter.writerow(header)
-#            # count += 1
-#     # else:
-#          csvwriter.writerow(row)
-#csv_file.close()
+
+#Collect important data from data frame
+recent_max = max(pandas_data['Daily High'].astype(float))
+recent_min = min(pandas_data['Daily Low'].astype(float))
+latest_close = pandas_data['Closing Price'][0]
+#print(latest_close)
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
