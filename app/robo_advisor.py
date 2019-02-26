@@ -5,6 +5,7 @@ import json
 import os
 import requests
 import sys
+import csv
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
@@ -29,11 +30,24 @@ if len(ticker_symbol) > 5:
     sys.exit("Please re-run the program and try again!")
 elif ticker_symbol.isalpha():
     print("Ticker format validated.")
+    print("-----------------------------------------------------")
 else:
     print("Uh-oh! Remember that ticker symbols only contain letters.")
     sys.exit("Please re-run the program and try again!")
 
-symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
+#symbol = "NFLX" # TODO: capture user input, like... input("Please specify a stock symbol: ")
+
+#Creates json file for chosen ticker using requests.get and validates that ticker request was successful
+alphavantage_data = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+ticker_symbol+'&outputsize=compact&apikey='+api_key)
+if "Error" in alphavantage_data.text:
+    print("-----------------------------------------------------")
+    print("Sorry, but we couldn't find any data for the selected ticker.")
+    sys.exit("Please re-run the program and try again!")
+else:
+    print("-----------------------------------------------------")
+    print("Downloading data...")
+    print("-----------------------------------------------------")
+json_data = alphavantage_data.json()
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
@@ -53,7 +67,7 @@ latest_price_usd = "$100,000.00"
 
 # TODO: further revise the example outputs below to reflect real information
 print("-----------------")
-print(f"STOCK SYMBOL: {symbol}")
+print(f"STOCK SYMBOL: {ticker_symbol}")
 print("RUN AT: 11:52pm on June 5th, 2018")
 print("-----------------")
 print("LATEST DAY OF AVAILABLE DATA: June 4th, 2018")
