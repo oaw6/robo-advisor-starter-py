@@ -76,39 +76,36 @@ def mean(numbers):
 #Collect important data from data frame
 recent_max = max(pandas_data['Daily High'].astype(float))
 recent_min = min(pandas_data['Daily Low'].astype(float))
-latest_close = pandas_data['Closing Price'][0]
+latest_close = float(pandas_data['Closing Price'][0])
 average_close = mean(pandas_data['Closing Price'].astype(float))
 #print(average_close)
 rate_close = (float(pandas_data['Closing Price'][0]) - float(pandas_data['Closing Price'][4])) / 5
 #print(rate_close)
 latest_date = pandas_data['Date'][0]
 
-# see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
-# TODO: assemble the request url to get daily data for the given stock symbol...
+#Determine recommendation
+recommendation = "null"
+reasoning = "null"
+if latest_close > average_close:
+    recommendation = "Do not buy"
+    reasoning = "The most recent closing price is greater than the average over the past 100 trading days, so you should wait for the price to drop."
+else:
+    if rate_close > 0:
+        recommendation = "Buy"
+        reasoning = "The most recent closing price is lower than the average but has increased over the last five days, so you should buy until the price decreases again."
+    else:
+        recommendation = "Do not buy"
+        reasoning = "The stock price has been decreasing and is below the average closing price over the last 100 trading days, so you may want to wait until the price starts increasing."
 
-# TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
-
-# TODO: further parse the JSON response...
-
-# TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-#latest_price_usd = "$100,000.00"
-
-#
-# INFO OUTPUTS
-#
-
-# TODO: write response data to a CSV file
-
-# TODO: further revise the example outputs below to reflect real information
 print("-----------------")
 print(f"STOCK SYMBOL: {ticker_symbol}")
 print("RUN AT: "+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 print("-----------------")
 print("LATEST DAY OF AVAILABLE DATA: "+latest_date)
-print("LATEST DAILY CLOSING PRICE: ${0:,.2f}".format(float(latest_close)))
+print("LATEST DAILY CLOSING PRICE: ${0:,.2f}".format(latest_close))
 print("RECENT HIGH: ${0:,.2f}".format(recent_max))
 print("RECENT LOW: ${0:,.2f}".format(recent_min))
 print("-----------------")
-print("RECOMMENDATION: Buy!")
-print("RECOMMENDATION REASON: Because the latest closing price is within threshold XYZ etc., etc. and this fits within your risk tolerance etc., etc.")
+print("RECOMMENDATION: "+recommendation)
+print("RECOMMENDATION REASON: "+reasoning)
 print("-----------------")
