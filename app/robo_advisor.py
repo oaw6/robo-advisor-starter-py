@@ -7,6 +7,7 @@ import requests
 import sys
 import csv
 import pandas
+import datetime
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 
@@ -77,9 +78,10 @@ recent_max = max(pandas_data['Daily High'].astype(float))
 recent_min = min(pandas_data['Daily Low'].astype(float))
 latest_close = pandas_data['Closing Price'][0]
 average_close = mean(pandas_data['Closing Price'].astype(float))
-print(average_close)
+#print(average_close)
 rate_close = (float(pandas_data['Closing Price'][0]) - float(pandas_data['Closing Price'][4])) / 5
-print(rate_close)
+#print(rate_close)
+latest_date = pandas_data['Date'][0]
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
@@ -100,12 +102,12 @@ print(rate_close)
 # TODO: further revise the example outputs below to reflect real information
 print("-----------------")
 print(f"STOCK SYMBOL: {ticker_symbol}")
-print("RUN AT: 11:52pm on June 5th, 2018")
+print("RUN AT: "+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 print("-----------------")
-print("LATEST DAY OF AVAILABLE DATA: June 4th, 2018")
-print(f"LATEST DAILY CLOSING PRICE: {latest_close}")
-print("RECENT HIGH: $101,000.00")
-print("RECENT LOW: $99,000.00")
+print("LATEST DAY OF AVAILABLE DATA: "+latest_date)
+print("LATEST DAILY CLOSING PRICE: ${0:,.2f}".format(float(latest_close)))
+print("RECENT HIGH: ${0:,.2f}".format(recent_max))
+print("RECENT LOW: ${0:,.2f}".format(recent_min))
 print("-----------------")
 print("RECOMMENDATION: Buy!")
 print("RECOMMENDATION REASON: Because the latest closing price is within threshold XYZ etc., etc. and this fits within your risk tolerance etc., etc.")
